@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thiệp Cưới Bảo Khang & Thúy Hạnh - 22.06.2025</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Dancing+Script:wght@600;700&family=Paytone+One&display=swap"
+        rel="stylesheet">
+    <!-- Tone.js for gentle wedding chime & music -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <style>
+        :root {
+            --kraft-bg: #decbb3;
+            --kraft-card: #e6d5c1;
+            --kraft-dark: #c5ad92;
+            --wood-bg: #2a1b12;
+            --crimson: #7b1e16;
+            --ink: #2c221e;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--wood-bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .font-serif-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-retro {
+            font-family: 'Paytone One', sans-serif;
+        }
+
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Dark Wooden Tabletop Background Texture */
+        .wood-background {
+            background-color: #261710;
+            background-image:
+                radial-gradient(circle at 50% 30%, rgba(70, 42, 24, 0.5) 0%, rgba(22, 12, 7, 0.92) 100%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 2px, transparent 2px, transparent 10px);
+        }
+
+        /* Realistic Kraft Paper Texture */
+        .kraft-paper {
+            background-color: #e2d1bc;
+            background-image:
+                radial-gradient(rgba(139, 90, 43, 0.08) 15%, transparent 16%),
+                radial-gradient(rgba(90, 60, 30, 0.06) 15%, transparent 16%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(0, 0, 0, 0.06) 100%);
+            background-size: 16px 16px, 24px 24px, 100% 100%;
+            background-position: 0 0, 11px 11px, 0 0;
+            box-shadow:
+                0 20px 45px -10px rgba(0, 0, 0, 0.65),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 0 35px rgba(139, 95, 55, 0.18);
+            border: 1px solid rgba(255, 245, 230, 0.35);
+        }
+
+        /* Blinking REC dot */
+        @keyframes recBlink {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.25;
+                transform: scale(0.92);
+            }
+        }
+
+        .rec-dot {
+            animation: recBlink 1.4s infinite ease-in-out;
+        }
+
+        /* Frosted Blurred "MỞ" Button Pulse */
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 250, 240, 0.45), 0 12px 32px rgba(0, 0, 0, 0.38);
+            }
+
+            50% {
+                transform: scale(1.06);
+                box-shadow: 0 0 0 18px rgba(255, 250, 240, 0), 0 16px 40px rgba(123, 30, 22, 0.45);
+            }
+        }
+
+        .open-btn-frosted {
+            background: rgba(255, 250, 244, 0.28);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(255, 255, 255, 0.65);
+            animation: pulseGlow 2.4s infinite ease-in-out;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .open-btn-frosted:hover {
+            background: rgba(255, 250, 244, 0.45);
+            backdrop-filter: blur(11px);
+            transform: scale(1.1);
+        }
+
+        /* Smooth Fade Transitions between Cover & Inside */
+        #cover-screen {
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.9s;
+        }
+
+        #cover-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.06);
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #inside-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #inside-content.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dotted Guest Input Line */
+        .dotted-line {
+            border-bottom: 1.5px dotted #5a4638;
+        }
+
+        /* Floating Hearts / Petals Canvas */
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #22140d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8c6d53;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="wood-background min-h-screen relative selection:bg-[#7b1e16] selection:text-amber-50">
+
+    <!-- Floating Petals & Hearts Background Canvas -->
+    <canvas id="petals-canvas"></canvas>
+
+    <!-- Top Floating Controls (Visible after opening) -->
+    <div id="floating-controls" class="fixed top-4 right-4 z-50 hidden items-center gap-2">
+        <button onclick="replayCover()" title="Xem lại bìa thiệp"
+            class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#e2d1bc]/90 hover:bg-[#e2d1bc] text-[#2c221e] shadow-lg border border-amber-900/20 text-xs font-semibold transition active:scale-95">
+            <svg class="w-4 h-4 text-[#7b1e16]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+            </svg>
+            <span>Bìa thiệp</span>
+        </button>
+        <button id="music-toggle-btn" onclick="toggleBackgroundMelody()" title="Bật/Tắt nhạc"
+            class="flex items-center justify-center w-9 h-9 rounded-full bg-[#7b1e16] text-amber-50 shadow-lg border border-amber-200/30 transition hover:scale-105 active:scale-95">
+            <svg id="music-icon-on" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+            </svg>
+            <svg id="music-icon-off" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. OPENING COVER SCREEN (HÌNH ĐẦU TIÊN)    -->
+    <!-- ========================================== -->
+    <section id="cover-screen"
+        class="fixed inset-0 z-40 flex flex-col items-center justify-center p-3 sm:p-6 md:p-10 overflow-y-auto wood-background">
+
+        <!-- Decorative Top Hint -->
+        <div
+            class="text-amber-100/80 text-xs sm:text-sm tracking-widest uppercase mb-3 flex items-center gap-2 text-center">
+            <span class="inline-block w-8 h-[1px] bg-amber-200/40"></span>
+            <span>Thiệp Cưới Online • Bảo Khang & Thúy Hạnh</span>
+            <span class="inline-block w-8 h-[1px] bg-amber-200/40"></span>
+        </div>
+
+        <!-- Horizontal Kraft Envelope Card (Image 1 Replica) -->
+        <div
+            class="kraft-paper relative w-full max-w-4xl rounded-xl px-4 py-6 sm:p-8 md:p-12 transition-transform duration-500">
+
+            <!-- Camera Viewfinder L-Brackets (4 Corners) -->
+            <!-- Top Left -->
+            <div
+                class="absolute top-3 left-3 sm:top-5 sm:left-5 w-10 h-10 sm:w-14 sm:h-14 border-t-2 border-l-2 border-[#2c221e] pointer-events-none">
+            </div>
+            <!-- Top Right -->
+            <div
+                class="absolute top-3 right-3 sm:top-5 sm:right-5 w-10 h-10 sm:w-14 sm:h-14 border-t-2 border-r-2 border-[#2c221e] pointer-events-none">
+            </div>
+            <!-- Bottom Left -->
+            <div
+                class="absolute bottom-3 left-3 sm:bottom-5 sm:left-5 w-10 h-10 sm:w-14 sm:h-14 border-b-2 border-l-2 border-[#2c221e] pointer-events-none">
+            </div>
+            <!-- Bottom Right -->
+            <div
+                class="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 w-10 h-10 sm:w-14 sm:h-14 border-b-2 border-r-2 border-[#2c221e] pointer-events-none">
+            </div>
+
+            <!-- Main 2-Column Envelope Content -->
+            <div class="grid grid-cols-12 gap-3 sm:gap-6 md:gap-8 items-center relative z-10 my-2">
+
+                <!-- Left Column: [● REC] & Cute Chibi Couple with Song Hy -->
+                <div class="col-span-6 flex flex-col items-center md:items-start relative">
+
+                    <!-- [● REC] Header & Heart Circle -->
+                    <div class="flex items-center justify-between w-full max-w-xs mb-1 sm:mb-2 px-0 sm:px-2">
+                        <div
+                            class="flex items-center gap-1 sm:gap-1.5 font-bold text-sm sm:text-xl md:text-2xl tracking-wider text-[#2c221e]">
+                            <span class="text-lg sm:text-2xl md:text-3xl font-light">[</span>
+                            <span
+                                class="w-2.5 h-2.5 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full bg-[#c8281e] inline-block rec-dot shadow-sm"></span>
+                            <span class="font-mono font-extrabold tracking-tight">REC</span>
+                            <span class="text-lg sm:text-2xl md:text-3xl font-light">]</span>
+                        </div>
+                        <!-- Small Vintage Heart Stamp -->
+                        <div
+                            class="w-6 h-6 sm:w-9 sm:h-9 rounded-full border border-[#4a3525] flex items-center justify-center bg-[#e8d8c5]/60">
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#7b1e16]" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Custom Hand-drawn Style SVG: Chibi Groom & Bride Leaning on Red Song Hy (囍) + Cat & Tulips -->
+                    <div class="w-full max-w-[180px] sm:max-w-[260px] md:max-w-[320px] mx-auto mt-1 sm:mt-2">
+                        <!-- Polaroid-style frame to match the kraft/vintage look -->
+                        <div
+                            class="bg-[#f6ede1] p-1.5 pb-5 sm:p-2.5 sm:pb-8 md:p-3 md:pb-10 rounded-sm shadow-[0_10px_25px_-8px_rgba(0,0,0,0.55)] border border-[#cbb79e] -rotate-2 transition-transform duration-500 hover:rotate-0">
+                            <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&amp;fit=crop&amp;w=800&amp;q=80"
+                                alt="Bảo Khang &amp; Thúy Hạnh"
+                                class="w-full h-auto aspect-[4/5] object-cover object-center rounded-[2px] drop-shadow-md"
+                                loading="eager" referrerpolicy="no-referrer" />
+                            <p class="font-script text-center text-sm sm:text-lg md:text-xl text-[#7b1e16] mt-1 sm:mt-2 leading-none">Bảo
+                                Khang &amp; Thúy Hạnh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Wedding Title, Guest Name & Music Player Timeline -->
+                <div class="col-span-6 flex flex-col justify-between text-left px-0 sm:px-4 space-y-3 sm:space-y-6">
+
+                    <!-- Main Title Group -->
+                    <div>
+                        <h1
+                            class="font-retro text-2xl sm:text-4xl md:text-5xl lg:text-[52px] tracking-wide text-[#231915] leading-none mb-1 sm:mb-2 uppercase">
+                            ĐÁM CƯỚI
+                        </h1>
+                        <p class="font-bold text-[11px] sm:text-base md:text-xl tracking-wide sm:tracking-wider text-[#2c221e] uppercase">
+                            BẢO KHANG &amp; THÚY HẠNH
+                        </p>
+                    </div>
+
+                    <!-- Guest Invitation Line -->
+                    <div class="pt-0 sm:pt-2 pb-1 sm:pb-4">
+                        <p class="text-[9px] sm:text-xs md:text-sm font-bold tracking-wider uppercase text-[#3b2d26] mb-1 sm:mb-3">
+                            TRÂN TRỌNG KÍNH MỜI:
+                        </p>
+                        <div class="dotted-line w-full pb-1 sm:pb-1.5 flex items-baseline justify-between">
+                            <span id="guest-name-display"
+                                class="font-script text-base sm:text-2xl md:text-3xl text-[#7b1e16] font-bold px-0 sm:px-2">
+                                Quý Khách &amp; Gia Đình
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Date & Retro Audio Player Graphic -->
+                    <div class="pt-0 sm:pt-2">
+                        <!-- Date -->
+                        <div class="font-retro text-base sm:text-2xl md:text-3xl tracking-wider sm:tracking-widest text-[#231915] mb-2 sm:mb-3">
+                            22 . 06 . 2025
+                        </div>
+
+                        <!-- Progress Bar with Heart/Circle Scrubber -->
+                        <div class="relative w-full flex items-center">
+                            <div class="w-full h-[3px] bg-[#4a3528] rounded-full"></div>
+                            <div
+                                class="absolute left-[68%] -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#4a3528] border-2 border-[#e2d1bc] shadow">
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-[10px] sm:text-xs md:text-sm font-semibold text-[#3b2d26] mt-1 sm:mt-1.5">
+                            <span>9:30</span>
+                            <span class="mr-[24%]">17:30</span>
+                        </div>
+
+                        <!-- Media Controls Row -->
+                        <div class="flex items-center justify-between max-w-xs sm:max-w-sm mt-2 sm:mt-3 text-[#4a3528]">
+                            <!-- Shuffle -->
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
+                            </svg>
+                            <!-- Prev -->
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                            </svg>
+                            <!-- Pause Circle -->
+                            <div
+                                class="w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#4a3528] text-[#e2d1bc] flex items-center justify-center shadow-md">
+                                <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                </svg>
+                            </div>
+                            <!-- Next -->
+                            <svg class="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+                            </svg>
+                            <!-- Repeat -->
+                            <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2.2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 1l4 4-4 4" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13v2a4 4 0 01-4 4H3" />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ==================================================== -->
+            <!-- CENTER BLURRED "MỞ" BUTTON OVERLAY (YÊU CẦU CHÍNH)   -->
+            <!-- ==================================================== -->
+            <div class="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+                <button id="open-invitation-btn" onclick="openInvitation()"
+                    class="open-btn-frosted pointer-events-auto group relative w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full flex flex-col items-center justify-center cursor-pointer select-none focus:outline-none">
+                    <!-- Subtle Inner Ring -->
+                    <div
+                        class="absolute inset-2 rounded-full border border-[#7b1e16]/40 group-hover:border-[#7b1e16] transition-colors">
+                    </div>
+                    <!-- Wax Seal / Heart Icon -->
+                    <svg class="w-4 h-4 sm:w-6 sm:h-6 text-[#7b1e16] mb-0.5 transition-transform group-hover:scale-110"
+                        fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    <span
+                        class="font-serif-title font-bold text-lg sm:text-2xl md:text-3xl leading-none tracking-widest text-[#2c221e] drop-shadow-sm">
+                        MỞ
+                    </span>
+                    <span class="text-[7px] sm:text-[10px] uppercase tracking-widest text-[#5a3e2e] font-semibold mt-0.5">
+                        Chạm để mở
+                    </span>
+                </button>
+            </div>
+
+        </div>
+
+        <p class="text-amber-100/60 text-xs mt-4 text-center">
+            Nhấn vào nút <strong>"MỞ"</strong> ở giữa thiệp để xem chi tiết hôn lễ
+        </p>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- 2. INSIDE INVITATION CONTENT (HÌNH 2 + ĐỊA CHỈ + QR CODE)  -->
+    <!-- ========================================================== -->
+    <main id="inside-content" class="hidden min-h-screen py-10 px-4 sm:px-6 lg:px-10 max-w-6xl mx-auto">
+
+        <!-- Top Header Banner -->
+        <header class="text-center mb-10">
+            <p class="text-amber-200/80 text-xs sm:text-sm uppercase tracking-[0.25em] mb-2">Save The Date • 22.06.2025
+            </p>
+            <h2 class="font-serif-title text-3xl sm:text-5xl text-amber-50 font-bold tracking-wide">
+                Bảo Khang <span class="text-[#d96b52] font-script font-normal">&amp;</span> Thúy Hạnh
+            </h2>
+            <div class="w-24 h-[1px] bg-amber-200/40 mx-auto mt-3"></div>
+        </header>
+
+        <!-- ======================================================== -->
+        <!-- SECTION A: 2 VINTAGE KRAFT CARDS (NHƯ TRONG HÌNH THỨ 2)  -->
+        <!-- ======================================================== -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch mb-16">
+
+            <!-- CARD 1: LỄ THÀNH HÔN (LEFT CARD IN IMAGE 2) -->
+            <article class="kraft-paper relative rounded-lg p-6 sm:p-10 flex flex-col justify-between overflow-hidden">
+
+                <!-- Decorative Wavy Hand-drawn Frame SVG -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 560"
+                    preserveAspectRatio="none">
+                    <!-- Left Wavy Line -->
+                    <path d="M 38 110 Q 18 190 36 270 T 30 430 Q 40 490 95 515" fill="none" stroke="#3b2b20"
+                        stroke-width="1.4" opacity="0.75" />
+                    <!-- Right Wavy Line -->
+                    <path d="M 290 30 Q 375 65 362 150 T 365 310 Q 370 390 350 440" fill="none" stroke="#3b2b20"
+                        stroke-width="1.4" opacity="0.75" />
+                </svg>
+
+                <!-- Top Left Botanical Tulips Illustration -->
+                <div class="relative z-10 flex justify-between items-start mb-2">
+                    <svg class="w-36 h-20 -mt-2 -ml-2" viewBox="0 0 180 90" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <!-- Stems & Leaves -->
+                        <path d="M18 78 Q35 45 65 30" stroke="#3b2b20" stroke-width="1.8" stroke-linecap="round" />
+                        <path d="M55 22 Q88 18 122 25" stroke="#3b2b20" stroke-width="1.8" stroke-linecap="round" />
+                        <ellipse cx="42" cy="48" rx="12" ry="5" transform="rotate(-30 42 48)" fill="#5c7447"
+                            stroke="#3b2b20" stroke-width="1.5" />
+                        <ellipse cx="85" cy="22" rx="14" ry="5" transform="rotate(10 85 22)" fill="#5c7447"
+                            stroke="#3b2b20" stroke-width="1.5" />
+                        <!-- Red & Orange Tulip Buds -->
+                        <path d="M18 55 C12 45, 24 38, 28 48 C32 38, 42 45, 34 55 Z" fill="#9e2a1f" stroke="#3b2b20"
+                            stroke-width="1.5" />
+                        <path d="M105 16 C100 6, 112 2, 116 10 C120 2, 130 8, 122 18 Z" fill="#d96b43" stroke="#3b2b20"
+                            stroke-width="1.5" />
+                        <!-- Small Daisy -->
+                        <circle cx="52" cy="24" r="4" fill="#e6b35a" stroke="#3b2b20" stroke-width="1.2" />
+                    </svg>
+                    <span class="text-[11px] uppercase tracking-widest text-[#6e5644] font-semibold">Thiệp Báo
+                        Tin</span>
+                </div>
+
+                <!-- Two Families Info -->
+                <div class="relative z-10 grid grid-cols-2 gap-3 text-center my-2 px-1">
+                    <div>
+                        <p class="text-[11px] sm:text-xs text-[#4a372b] italic">Ông Bà</p>
+                        <p class="text-xs sm:text-sm font-bold text-[#2c221e] uppercase leading-snug mt-0.5">
+                            NGUYỄN NGỌC THIỆN<br>NGÔ THỊ MAI
+                        </p>
+                        <p class="text-[10px] sm:text-xs text-[#594436] mt-1">Quận Phú Nhuận - TP. HCM</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] sm:text-xs text-[#4a372b] italic">Ông Bà</p>
+                        <p class="text-xs sm:text-sm font-bold text-[#2c221e] uppercase leading-snug mt-0.5">
+                            PHẠM VĂN DŨNG<br>ĐẶNG TUYẾT NHUNG
+                        </p>
+                        <p class="text-[10px] sm:text-xs text-[#594436] mt-1">Quận Bình Thạnh - TP. HCM</p>
+                    </div>
+                </div>
+
+                <!-- Announcement Text -->
+                <div class="relative z-10 text-center my-5">
+                    <p
+                        class="text-[11px] sm:text-xs tracking-wider uppercase text-[#3b2d26] font-medium leading-relaxed">
+                        TRÂN TRỌNG BÁO TIN<br>
+                        <span class="font-bold">LỄ THÀNH HÔN CỦA CON CHÚNG TÔI</span>
+                    </p>
+
+                    <!-- Couple Names in Deep Crimson -->
+                    <div class="my-5 space-y-2">
+                        <div class="flex items-baseline justify-center gap-2">
+                            <h3 class="font-retro text-3xl sm:text-4xl text-[#7b1e16] tracking-wide">
+                                BẢO KHANG
+                            </h3>
+                            <span class="text-[11px] uppercase tracking-wider text-[#594436] font-semibold">Út
+                                nam</span>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-3 my-1">
+                            <span class="w-16 h-[1px] bg-[#8c6f5a]"></span>
+                            <span class="font-serif-title italic text-2xl text-[#4a372b]">&amp;</span>
+                            <span class="w-16 h-[1px] bg-[#8c6f5a]"></span>
+                        </div>
+
+                        <div class="flex items-baseline justify-center gap-2">
+                            <h3 class="font-retro text-3xl sm:text-4xl text-[#7b1e16] tracking-wide">
+                                THÚY HẠNH
+                            </h3>
+                            <span class="text-[11px] uppercase tracking-wider text-[#594436] font-semibold">Út nữ</span>
+                        </div>
+                    </div>
+
+                    <!-- Ceremony Time Details -->
+                    <p class="text-[11px] sm:text-xs uppercase tracking-wider text-[#3b2d26] mt-6 mb-2">
+                        HÔN LỄ ĐƯỢC CỬ HÀNH TẠI TƯ GIA VÀO LÚC
+                    </p>
+                    <p class="text-sm sm:text-base font-extrabold text-[#231915] uppercase tracking-wide">
+                        09 GIỜ 00, CHỦ NHẬT
+                    </p>
+                    <p class="text-base sm:text-lg font-extrabold text-[#7b1e16] uppercase tracking-wider mt-0.5">
+                        NGÀY 22 THÁNG 06 NĂM 2025
+                    </p>
+                    <p class="text-xs italic text-[#594436] mt-1">
+                        (Nhằm ngày 27 tháng 05 năm Ất Tỵ)
+                    </p>
+                </div>
+
+                <!-- Bottom Right Vintage Bouquet Illustration -->
+                <div class="relative z-10 flex justify-end items-end -mb-3 -mr-2">
+                    <svg class="w-36 h-24" viewBox="0 0 160 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Ribbon -->
+                        <path d="M25 95 C55 85, 75 95, 105 75" stroke="#9e2a1f" stroke-width="5"
+                            stroke-linecap="round" />
+                        <path d="M40 98 C65 92, 85 100, 112 82" stroke="#c85a32" stroke-width="3"
+                            stroke-linecap="round" />
+                        <!-- Foliage & Flowers -->
+                        <ellipse cx="95" cy="52" rx="14" ry="6" transform="rotate(-35 95 52)" fill="#5c7447"
+                            stroke="#2c221e" stroke-width="1.5" />
+                        <ellipse cx="128" cy="65" rx="14" ry="6" transform="rotate(25 128 65)" fill="#5c7447"
+                            stroke="#2c221e" stroke-width="1.5" />
+                        <circle cx="112" cy="55" r="10" fill="#d96b43" stroke="#2c221e" stroke-width="1.6" />
+                        <circle cx="96" cy="68" r="9" fill="#e6b35a" stroke="#2c221e" stroke-width="1.6" />
+                        <circle cx="126" cy="46" r="8" fill="#9e2a1f" stroke="#2c221e" stroke-width="1.6" />
+                        <circle cx="114" cy="74" r="8" fill="#eab5a8" stroke="#2c221e" stroke-width="1.6" />
+                    </svg>
+                </div>
+
+            </article>
+
+            <!-- CARD 2: THIỆP MỜI TIỆC CƯỚI GRAND PLACE (RIGHT CARD IN IMAGE 2) -->
+            <article class="kraft-paper relative rounded-lg p-6 sm:p-10 flex flex-col justify-between overflow-hidden">
+
+                <!-- Decorative Wavy Right Border Line -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 560"
+                    preserveAspectRatio="none">
+                    <path d="M 325 25 Q 375 95 360 190 T 355 380 Q 345 495 270 530" fill="none" stroke="#3b2b20"
+                        stroke-width="1.4" opacity="0.75" />
+                </svg>
+
+                <!-- Top Guest Invitation -->
+                <div class="relative z-10 text-center mt-2">
+                    <p class="text-xs uppercase tracking-widest text-[#3b2d26] font-semibold">
+                        TRÂN TRỌNG KÍNH MỜI
+                    </p>
+                    <div class="dotted-line max-w-xs mx-auto my-3 pb-1">
+                        <span class="font-script text-2xl text-[#7b1e16] font-bold">Quý Khách</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs uppercase tracking-wider text-[#4a372b] leading-relaxed mt-3">
+                        ĐẾN DỰ BUỔI TIỆC CHUNG VUI<br>CÙNG GIA ĐÌNH CHÚNG TÔI TẠI
+                    </p>
+                </div>
+
+                <!-- Restaurant Venue Details: GRAND PLACE -->
+                <div class="relative z-10 text-center my-4 py-3 px-2 border-y border-[#8c6f5a]/30">
+                    <p class="text-[11px] sm:text-xs uppercase tracking-widest text-[#3b2d26] font-semibold mb-1">
+                        TRUNG TÂM HỘI NGHỊ TIỆC CƯỚI
+                    </p>
+                    <div class="flex flex-wrap items-baseline justify-center gap-2 my-1">
+                        <h3 class="font-serif-title font-bold text-3xl sm:text-4xl text-[#7b1e16] tracking-wide">
+                            Grand Place
+                        </h3>
+                        <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#2c221e]">
+                            - SẢNH VENUS
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-[#2c221e] font-medium mt-1">
+                        142/18 Đ. Cộng Hòa, P.4, Q. Tân Bình, TP. Hồ Chí Minh
+                    </p>
+                </div>
+
+                <!-- Event Date & Time Grid -->
+                <div class="relative z-10 text-center my-2">
+                    <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#2c221e] mb-2">
+                        VÀO LÚC 18 GIỜ 00
+                    </p>
+
+                    <div class="flex items-center justify-center gap-3 sm:gap-5 my-2">
+                        <div
+                            class="border-y border-[#4a372b] py-1 px-2 text-xs sm:text-sm font-bold uppercase text-[#2c221e]">
+                            CHỦ NHẬT
+                        </div>
+                        <div class="font-serif-title font-bold text-4xl sm:text-5xl text-[#7b1e16] leading-none">
+                            22
+                        </div>
+                        <div
+                            class="border-y border-[#4a372b] py-1 px-2 text-xs sm:text-sm font-bold uppercase text-[#2c221e]">
+                            THÁNG 06
+                        </div>
+                    </div>
+
+                    <p class="font-bold text-base sm:text-lg text-[#2c221e] tracking-widest">
+                        2025
+                    </p>
+                    <p class="text-[11px] italic text-[#594436] mt-0.5">
+                        (Nhằm ngày 27 tháng 05 năm Ất Tỵ)
+                    </p>
+                </div>
+
+                <!-- Bottom Thank You Sign & Timeline Icons (18:00 & 19:00) -->
+                <div class="relative z-10 grid grid-cols-12 gap-3 items-center mt-5 pt-3 border-t border-[#8c6f5a]/25">
+
+                    <!-- Left: Cute Couple Holding Sign "CẢM ƠN QUÝ KHÁCH ĐÃ ĐẾN" -->
+                    <div class="col-span-5 flex flex-col items-center">
+                        <div
+                            class="border-2 border-[#2c221e] bg-[#efe2d2] rounded-md px-2 py-1.5 text-center shadow-sm transform -rotate-3">
+                            <p class="text-[9px] sm:text-[10px] font-extrabold uppercase text-[#7b1e16] leading-tight">
+                                CẢM ƠN<br>QUÝ KHÁCH ĐÃ ĐẾN
+                            </p>
+                        </div>
+                        <!-- Mini Hearts & Couple Arms Holding Sign -->
+                        <div class="flex items-center gap-2 mt-1 text-[#c8281e]">
+                            <span>♥</span>
+                            <span>♥</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Honor Text + 18:00 & 19:00 Icons -->
+                    <div class="col-span-7 flex flex-col justify-between space-y-3">
+                        <p
+                            class="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#3b2d26] text-center font-medium leading-relaxed">
+                            SỰ HIỆN DIỆN CỦA QUÝ KHÁCH<br>LÀ NIỀM VINH HẠNH<br>CHO GIA ĐÌNH CHÚNG TÔI
+                        </p>
+
+                        <!-- 18:00 Đón Khách & 19:00 Khai Tiệc -->
+                        <div class="flex items-center justify-around pt-1">
+                            <!-- Đón khách -->
+                            <div class="flex items-center gap-1.5">
+                                <svg class="w-6 h-6 text-[#2c221e]" fill="none" stroke="currentColor" stroke-width="1.6"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                                    <circle cx="12" cy="13" r="3" />
+                                </svg>
+                                <div class="text-left">
+                                    <p class="text-[9px] uppercase font-bold text-[#4a372b]">ĐÓN KHÁCH</p>
+                                    <p class="text-xs font-extrabold text-[#7b1e16]">18:00</p>
+                                </div>
+                            </div>
+
+                            <div class="h-6 w-[1px] bg-[#8c6f5a]/50"></div>
+
+                            <!-- Khai tiệc -->
+                            <div class="flex items-center gap-1.5">
+                                <svg class="w-6 h-6 text-[#2c221e]" fill="none" stroke="currentColor" stroke-width="1.6"
+                                    viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="6" />
+                                    <path stroke-linecap="round" d="M3 6v12M6 6v5M18 6v12" />
+                                </svg>
+                                <div class="text-left">
+                                    <p class="text-[9px] uppercase font-bold text-[#4a372b]">KHAI TIỆC</p>
+                                    <p class="text-xs font-extrabold text-[#7b1e16]">19:00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION B: ĐỊA CHỈ NHÀ TRAI, NHÀ GÁI & NHÀ HÀNG (MAPS)    -->
+        <!-- ======================================================== -->
+        <section class="mb-16">
+            <div class="text-center mb-8">
+                <span class="text-amber-200/80 text-xs uppercase tracking-[0.25em]">Locations &amp; Directions</span>
+                <h3 class="font-serif-title text-3xl sm:text-4xl text-amber-50 font-bold mt-1">
+                    Địa Điểm Tổ Chức
+                </h3>
+                <p class="text-amber-100/70 text-xs sm:text-sm mt-1">
+                    Thông tin địa chỉ Tư Gia Nhà Trai, Nhà Gái và Trung Tâm Tiệc Cưới
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- 1. Địa chỉ Nhà Trai -->
+                <div
+                    class="kraft-paper rounded-xl p-6 flex flex-col justify-between text-center relative overflow-hidden">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-[#7b1e16]/10 border border-[#7b1e16]/30 flex items-center justify-center mx-auto mb-3 text-[#7b1e16]">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-[11px] font-bold uppercase tracking-widest text-[#7b1e16] bg-[#7b1e16]/10 px-3 py-1 rounded-full">
+                            Tư Gia Nhà Trai
+                        </span>
+                        <h4 class="font-bold text-lg text-[#2c221e] mt-3 uppercase">
+                            Gia Đình Chú Rể Bảo Khang
+                        </h4>
+                        <p class="text-xs text-[#4a372b] mt-1">
+                            Ông Bà: <strong>Nguyễn Ngọc Thiện - Ngô Thị Mai</strong>
+                        </p>
+                        <div class="my-4 py-3 px-3 rounded-lg bg-[#d5c0a7]/60 border border-[#8c6f5a]/30">
+                            <p class="text-xs sm:text-sm font-semibold text-[#231915]">
+                                Quận Phú Nhuận, TP. Hồ Chí Minh
+                            </p>
+                            <p class="text-xs text-[#594436] mt-1">
+                                Lễ Thành Hôn: <strong>09:00 - Chủ Nhật, 22/06/2025</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=Quan+Phu+Nhuan+TP+HCM" target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-2 inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#4a3528] hover:bg-[#2c221e] text-amber-50 text-xs font-semibold uppercase tracking-wider transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Chỉ đường Nhà Trai</span>
+                    </a>
+                </div>
+
+                <!-- 2. Địa chỉ Nhà Gái -->
+                <div
+                    class="kraft-paper rounded-xl p-6 flex flex-col justify-between text-center relative overflow-hidden">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-[#7b1e16]/10 border border-[#7b1e16]/30 flex items-center justify-center mx-auto mb-3 text-[#7b1e16]">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-[11px] font-bold uppercase tracking-widest text-[#7b1e16] bg-[#7b1e16]/10 px-3 py-1 rounded-full">
+                            Tư Gia Nhà Gái
+                        </span>
+                        <h4 class="font-bold text-lg text-[#2c221e] mt-3 uppercase">
+                            Gia Đình Cô Dâu Thúy Hạnh
+                        </h4>
+                        <p class="text-xs text-[#4a372b] mt-1">
+                            Ông Bà: <strong>Phạm Văn Dũng - Đặng Tuyết Nhung</strong>
+                        </p>
+                        <div class="my-4 py-3 px-3 rounded-lg bg-[#d5c0a7]/60 border border-[#8c6f5a]/30">
+                            <p class="text-xs sm:text-sm font-semibold text-[#231915]">
+                                Quận Bình Thạnh, TP. Hồ Chí Minh
+                            </p>
+                            <p class="text-xs text-[#594436] mt-1">
+                                Lễ Vu Quy: <strong>Chủ Nhật, 22/06/2025</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=Quan+Binh+Thanh+TP+HCM" target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-2 inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#4a3528] hover:bg-[#2c221e] text-amber-50 text-xs font-semibold uppercase tracking-wider transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Chỉ đường Nhà Gái</span>
+                    </a>
+                </div>
+
+                <!-- 3. Trung Tâm Tiệc Cưới Grand Place -->
+                <div
+                    class="kraft-paper rounded-xl p-6 flex flex-col justify-between text-center relative overflow-hidden ring-2 ring-[#7b1e16]/50">
+                    <div>
+                        <div
+                            class="w-12 h-12 rounded-full bg-[#7b1e16] text-amber-50 flex items-center justify-center mx-auto mb-3 shadow">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-[11px] font-bold uppercase tracking-widest text-amber-50 bg-[#7b1e16] px-3 py-1 rounded-full">
+                            Tiệc Cưới Chính • Sảnh Venus
+                        </span>
+                        <h4 class="font-serif-title font-bold text-2xl text-[#7b1e16] mt-3">
+                            TT Hội Nghị Grand Place
+                        </h4>
+                        <p class="text-xs text-[#4a372b] mt-1">
+                            Đón khách: <strong>18:00</strong> • Khai tiệc: <strong>19:00</strong>
+                        </p>
+                        <div class="my-4 py-3 px-3 rounded-lg bg-[#d5c0a7]/60 border border-[#8c6f5a]/30">
+                            <p class="text-xs sm:text-sm font-semibold text-[#231915]">
+                                142/18 Đ. Cộng Hòa, P.4, Q. Tân Bình, TP. HCM
+                            </p>
+                            <p class="text-xs text-[#594436] mt-1">
+                                Chủ Nhật, <strong>22/06/2025</strong> (27/05 Ất Tỵ)
+                            </p>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=Grand+Place+142/18+Cong+Hoa+Tan+Binh+TP+HCM"
+                        target="_blank" rel="noopener noreferrer"
+                        class="mt-2 inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#7b1e16] hover:bg-[#5e150f] text-amber-50 text-xs font-semibold uppercase tracking-wider transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>Bản đồ Grand Place</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- SECTION C: HỘP MỪNG CƯỚI & QR CODE NGÂN HÀNG              -->
+        <!-- ======================================================== -->
+        <section class="mb-14">
+            <div class="text-center mb-8">
+                <span class="text-amber-200/80 text-xs uppercase tracking-[0.25em]">Wedding Gift Box</span>
+                <h3 class="font-serif-title text-3xl sm:text-4xl text-amber-50 font-bold mt-1">
+                    Hộp Mừng Cưới Online
+                </h3>
+                <p class="text-amber-100/75 text-xs sm:text-sm max-w-xl mx-auto mt-1 leading-relaxed">
+                    Sự hiện diện của Quý Khách là món quà quý giá nhất với gia đình chúng tôi. Nếu muốn gửi quà mừng từ
+                    xa, Quý Khách có thể quét mã QR bên dưới.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                <!-- 1. QR Chú Rể (Bảo Khang) -->
+                <div class="kraft-paper rounded-xl p-6 sm:p-8 text-center flex flex-col items-center justify-between">
+                    <div class="w-full">
+                        <span
+                            class="inline-block text-[11px] font-bold uppercase tracking-widest text-[#7b1e16] bg-[#7b1e16]/10 px-3 py-1 rounded-full mb-2">
+                            Mừng Cưới Nhà Trai
+                        </span>
+                        <h4 class="font-retro text-2xl text-[#2c221e] uppercase">
+                            Chú Rể Bảo Khang
+                        </h4>
+
+                        <!-- VietQR Image Frame -->
+                        <div
+                            class="bg-white p-3.5 rounded-xl shadow-md border-2 border-[#8c6f5a]/40 w-52 h-52 mx-auto my-4 flex items-center justify-center">
+                            <img src="https://img.vietqr.io/image/VCB-1029384756-compact2.png?amount=0&addInfo=Mung%20cuoi%20Bao%20Khang%20Thuy%20Hanh&accountName=NGUYEN%20BAO%20KHANG"
+                                alt="QR Ngân Hàng Chú Rể Bảo Khang" class="w-full h-full object-contain rounded"
+                                onerror="this.src='https://placehold.co/220x220/ffffff/7b1e16?text=QR+BAO+KHANG'" />
+                        </div>
+
+                        <div
+                            class="bg-[#d5c0a7]/60 rounded-lg p-3.5 border border-[#8c6f5a]/30 text-left space-y-1.5 text-xs sm:text-sm mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-[#594436]">Ngân hàng:</span>
+                                <span class="font-bold text-[#231915]">Vietcombank (VCB)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[#594436]">Chủ tài khoản:</span>
+                                <span class="font-bold text-[#231915] uppercase">NGUYỄN BẢO KHANG</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#594436]">Số tài khoản:</span>
+                                <span id="groom-acc-num"
+                                    class="font-mono font-extrabold text-base text-[#7b1e16]">1029384756</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="copyAccount('1029384756', 'Đã sao chép STK Chú Rể Bảo Khang!')"
+                        class="w-full py-2.5 px-4 rounded-lg bg-[#4a3528] hover:bg-[#2c221e] text-amber-50 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition active:scale-95 shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Sao chép số tài khoản</span>
+                    </button>
+                </div>
+
+                <!-- 2. QR Cô Dâu (Thúy Hạnh) -->
+                <div class="kraft-paper rounded-xl p-6 sm:p-8 text-center flex flex-col items-center justify-between">
+                    <div class="w-full">
+                        <span
+                            class="inline-block text-[11px] font-bold uppercase tracking-widest text-[#7b1e16] bg-[#7b1e16]/10 px-3 py-1 rounded-full mb-2">
+                            Mừng Cưới Nhà Gái
+                        </span>
+                        <h4 class="font-retro text-2xl text-[#7b1e16] uppercase">
+                            Cô Dâu Thúy Hạnh
+                        </h4>
+
+                        <!-- VietQR Image Frame -->
+                        <div
+                            class="bg-white p-3.5 rounded-xl shadow-md border-2 border-[#8c6f5a]/40 w-52 h-52 mx-auto my-4 flex items-center justify-center">
+                            <img src="https://img.vietqr.io/image/TCB-19038475612-compact2.png?amount=0&addInfo=Mung%20cuoi%20Bao%20Khang%20Thuy%20Hanh&accountName=PHAM%20THUY%20HANH"
+                                alt="QR Ngân Hàng Cô Dâu Thúy Hạnh" class="w-full h-full object-contain rounded"
+                                onerror="this.src='https://placehold.co/220x220/ffffff/7b1e16?text=QR+THUY+HANH'" />
+                        </div>
+
+                        <div
+                            class="bg-[#d5c0a7]/60 rounded-lg p-3.5 border border-[#8c6f5a]/30 text-left space-y-1.5 text-xs sm:text-sm mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-[#594436]">Ngân hàng:</span>
+                                <span class="font-bold text-[#231915]">Techcombank (TCB)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[#594436]">Chủ tài khoản:</span>
+                                <span class="font-bold text-[#231915] uppercase">PHẠM THÚY HẠNH</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[#594436]">Số tài khoản:</span>
+                                <span id="bride-acc-num"
+                                    class="font-mono font-extrabold text-base text-[#7b1e16]">19038475612</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="copyAccount('19038475612', 'Đã sao chép STK Cô Dâu Thúy Hạnh!')"
+                        class="w-full py-2.5 px-4 rounded-lg bg-[#7b1e16] hover:bg-[#5e150f] text-amber-50 text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition active:scale-95 shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span>Sao chép số tài khoản</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center pt-6 pb-12 border-t border-amber-200/15 text-amber-100/70">
+            <p class="font-script text-3xl text-amber-100 mb-1">Bảo Khang &amp; Thúy Hạnh</p>
+            <p class="text-xs tracking-widest uppercase">22 . 06 . 2025 • Forever &amp; Always</p>
+        </footer>
+
+    </main>
+
+    <!-- Custom Toast Notification Box (No alert()) -->
+    <div id="toast-box"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-4">
+        <div
+            class="bg-[#231915] text-amber-50 border border-amber-200/30 px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-medium">
+            <span
+                class="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">✓</span>
+            <span id="toast-message">Đã sao chép số tài khoản!</span>
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // 1. CUSTOMIZE GUEST NAME VIA URL (?guest=Ten+Khach)
+        // =====================================================
+        (function initGuestName() {
+            const params = new URLSearchParams(window.location.search);
+            const guest = params.get('guest') || params.get('khach');
+            if (guest && guest.trim() !== '') {
+                const guestEl = document.getElementById('guest-name-display');
+                if (guestEl) guestEl.textContent = guest.trim();
+            }
+        })();
+
+        // =====================================================
+        // 2. FADE TRANSITION: OPEN COVER -> SHOW INSIDE
+        // =====================================================
+        let isMusicPlaying = false;
+        let melodyInterval = null;
+        let synth = null;
+
+        function openInvitation() {
+            const coverScreen = document.getElementById('cover-screen');
+            const insideContent = document.getElementById('inside-content');
+            const floatingControls = document.getElementById('floating-controls');
+
+            // Play gentle chime & background melody
+            startBackgroundMelody();
+
+            // Fade out cover screen
+            coverScreen.classList.add('fade-out');
+
+            // Reveal inside content with smooth fade-in
+            insideContent.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    insideContent.classList.add('fade-in');
+                    floatingControls.classList.remove('hidden');
+                    floatingControls.classList.add('flex');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 80);
+            });
+        }
+
+        function replayCover() {
+            const coverScreen = document.getElementById('cover-screen');
+            const insideContent = document.getElementById('inside-content');
+            const floatingControls = document.getElementById('floating-controls');
+
+            insideContent.classList.remove('fade-in');
+            floatingControls.classList.add('hidden');
+            floatingControls.classList.remove('flex');
+
+            setTimeout(() => {
+                insideContent.classList.add('hidden');
+                coverScreen.classList.remove('fade-out');
+            }, 450);
+        }
+
+        // =====================================================
+        // 3. TONE.JS GENTLE ROMANTIC MUSIC BOX MELODY
+        // =====================================================
+        async function startBackgroundMelody() {
+            try {
+                if (typeof Tone === 'undefined') return;
+                await Tone.start();
+
+                if (!synth) {
+                    synth = new Tone.PolySynth(Tone.Synth, {
+                        oscillator: { type: 'sine' },
+                        envelope: {
+                            attack: 0.08,
+                            decay: 0.4,
+                            sustain: 0.2,
+                            release: 1.8
+                        }
+                    }).toDestination();
+                    synth.volume.value = -14;
+                }
+
+                if (isMusicPlaying) return;
+                isMusicPlaying = true;
+                updateMusicIcon();
+
+                // Gentle Canon-inspired romantic arpeggio notes
+                const notes = [
+                    ['C4', 'E4', 'G4'],
+                    ['G3', 'B3', 'D4'],
+                    ['A3', 'C4', 'E4'],
+                    ['E3', 'G3', 'B3'],
+                    ['F3', 'A3', 'C4'],
+                    ['C3', 'E3', 'G3'],
+                    ['F3', 'A3', 'D4'],
+                    ['G3', 'B3', 'D4']
+                ];
+                let step = 0;
+
+                // Play first chord immediately
+                synth.triggerAttackRelease(notes[0], '2n');
+                step = 1;
+
+                melodyInterval = setInterval(() => {
+                    if (!isMusicPlaying) return;
+                    const chord = notes[step % notes.length];
+                    synth.triggerAttackRelease(chord, '2n');
+                    step++;
+                }, 1800);
+            } catch (e) {
+                // Ignore audio context restrictions if any
+            }
+        }
+
+        function toggleBackgroundMelody() {
+            if (isMusicPlaying) {
+                isMusicPlaying = false;
+                if (melodyInterval) clearInterval(melodyInterval);
+                updateMusicIcon();
+                showToast('Đã tạm dừng nhạc nền');
+            } else {
+                startBackgroundMelody();
+                showToast('Đã bật nhạc nền');
+            }
+        }
+
+        function updateMusicIcon() {
+            const onIcon = document.getElementById('music-icon-on');
+            const offIcon = document.getElementById('music-icon-off');
+            if (isMusicPlaying) {
+                onIcon.classList.remove('hidden');
+                offIcon.classList.add('hidden');
+            } else {
+                onIcon.classList.add('hidden');
+                offIcon.classList.remove('hidden');
+            }
+        }
+
+        // =====================================================
+        // 4. COPY BANK ACCOUNT HELPER + TOAST NOTIFICATION
+        // =====================================================
+        function copyAccount(accountNumber, message) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = accountNumber;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast(message);
+            } catch (err) {
+                showToast('Số TK: ' + accountNumber);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            const text = document.getElementById('toast-message');
+            text.textContent = msg;
+            box.classList.remove('opacity-0', 'translate-y-4');
+            box.classList.add('opacity-100', 'translate-y-0');
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                box.classList.add('opacity-0', 'translate-y-4');
+                box.classList.remove('opacity-100', 'translate-y-0');
+            }, 2600);
+        }
+
+        // =====================================================
+        // 5. SUBTLE FALLING HEARTS & VINTAGE PETALS CANVAS
+        // =====================================================
+        window.onload = function () {
+            const canvas = document.getElementById('petals-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            const particleCount = 18;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 6 + 5,
+                    speedY: Math.random() * 0.6 + 0.3,
+                    speedX: (Math.random() - 0.5) * 0.4,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.015,
+                    opacity: Math.random() * 0.35 + 0.15,
+                    color: i % 2 === 0 ? '#c84b31' : '#e6b39a'
+                });
+            }
+
+            function drawHeart(x, y, size, angle, color, alpha) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                const topCurveHeight = size * 0.3;
+                ctx.moveTo(0, topCurveHeight);
+                ctx.bezierCurveTo(0, 0, -size / 2, 0, -size / 2, topCurveHeight);
+                ctx.bezierCurveTo(-size / 2, (size + topCurveHeight) / 2, 0, (size + topCurveHeight) / 1.4, 0, size);
+                ctx.bezierCurveTo(0, (size + topCurveHeight) / 1.4, size / 2, (size + topCurveHeight) / 2, size / 2, topCurveHeight);
+                ctx.bezierCurveTo(size / 2, 0, 0, 0, 0, topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                for (let p of particles) {
+                    p.y += p.speedY;
+                    p.x += p.speedX + Math.sin(p.angle) * 0.25;
+                    p.angle += p.spin;
+
+                    if (p.y > height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * width;
+                    }
+                    drawHeart(p.x, p.y, p.size, p.angle, p.color, p.opacity);
+                }
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        };
+    </script>
+</body>
+
+</html>

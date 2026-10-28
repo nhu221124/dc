@@ -557,7 +557,7 @@
                         TRÂN TRỌNG KÍNH MỜI
                     </p>
                     <div class="dotted-line max-w-xs mx-auto my-3 pb-1">
-                        <span class="font-script text-2xl text-[#7b1e16] font-bold">Quý Khách</span>
+                        <span class="guest-name-slot font-script text-2xl text-[#7b1e16] font-bold">Quý Khách</span>
                     </div>
                     <p class="text-[11px] sm:text-xs uppercase tracking-wider text-[#4a372b] leading-relaxed mt-3">
                         ĐẾN DỰ BUỔI TIỆC CHUNG VUI<br>CÙNG GIA ĐÌNH CHÚNG TÔI TẠI
@@ -963,14 +963,28 @@
 
     <script>
         // =====================================================
-        // 1. CUSTOMIZE GUEST NAME VIA URL (?guest=Ten+Khach)
+        // 1. CUSTOMIZE GUEST NAME VIA URL (?name=Tên+Khách)
+        //    - Also accepts legacy ?guest= / ?khach=
+        //    - URLSearchParams decodes percent-encoded UTF-8
+        //      (e.g. ?name=Qu%E1%BB%B3nh -> "Quỳnh"), '+' -> space
+        //    - No param -> keep default "Quý Khách & Gia Đình"
         // =====================================================
         (function initGuestName() {
+            const DEFAULT_NAME = 'Quý Khách & Gia Đình';
             const params = new URLSearchParams(window.location.search);
-            const guest = params.get('guest') || params.get('khach');
-            if (guest && guest.trim() !== '') {
-                const guestEl = document.getElementById('guest-name-display');
-                if (guestEl) guestEl.textContent = guest.trim();
+            const raw = params.get('name') || params.get('guest') || params.get('khach') || '';
+            // Normalize to NFC so Vietnamese diacritics render consistently,
+            // collapse whitespace, and cap length to keep the layout intact.
+            const name = raw.normalize('NFC').replace(/\s+/g, ' ').trim().slice(0, 60);
+
+            const guestEl = document.getElementById('guest-name-display');
+            if (guestEl) guestEl.textContent = name || DEFAULT_NAME;
+
+            if (name) {
+                document.querySelectorAll('.guest-name-slot').forEach(el => {
+                    el.textContent = name;
+                });
+                document.title = `${name} - ${document.title}`;
             }
         })();
 
